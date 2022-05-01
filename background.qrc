@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/aerodrom-satellite.png</file>
+        <file>img/aerodrom-satellite-720.png</file>
+        <file>img/point-sample.png</file>
+        <file>img/nothing.png</file>
+    </qresource>
+</RCC>
