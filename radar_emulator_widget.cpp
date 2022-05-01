@@ -392,36 +392,61 @@ vector<point> radar_emulator_widget::SPAWN = {
 };
 
 map<point, pair<size_t, WAY_TYPE>> radar_emulator_widget::TAXIWAY_END_POINTS = {
-
+    { {1750, 444}, {9, WAY_TYPE::START} },  // 1
+    { {1750, 420}, {9, WAY_TYPE::START} },  // 2
+    { {1748, 364}, {9, WAY_TYPE::START} },  // 3
+    { {1727, 365}, {9, WAY_TYPE::START} },  // 4
+    { {1748, 324}, {9, WAY_TYPE::START} },  // 5
+    { {1727, 324}, {9, WAY_TYPE::START} },  // 6
+    { {1746, 292}, {9, WAY_TYPE::START} },  // 7
+    { {1746, 269}, {9, WAY_TYPE::START} },  // 8
+    { {1746, 245}, {9, WAY_TYPE::START} },  // 9
+    { {1687, 316}, {9, WAY_TYPE::START} },  // 10
+    { {1687, 336}, {9, WAY_TYPE::START} },  // 11
+    { {1687, 357}, {9, WAY_TYPE::START} },  // 12
+    { {1688, 378}, {9, WAY_TYPE::START} },  // 13
+    { {1689, 398}, {9, WAY_TYPE::START} },  // 14
+    { {1688, 419}, {9, WAY_TYPE::START} },  // 15
 //    { {1713, 454}, {9, WAY_TYPE::START} },
-//    { {1711, 548}, {9, WAY_TYPE::END} },
-//    { {1710, 558}, {0, WAY_TYPE::START} },
-//    { FAKE_POINT, {0, WAY_TYPE::END} },
-//    { {1651, 759}, {8, WAY_TYPE::START} },
-//    { {1711, 702}, {8, WAY_TYPE::END} },
-//    { {1710, 694}, {1, WAY_TYPE::START} },
-//    { {1711, 608}, {1, WAY_TYPE::END} },
-//    { {1711, 601}, {0, WAY_TYPE::START} }, // end same as 0
-//    { {1442, 736}, {7, WAY_TYPE::START} },
-//    { {1439, 705}, {7, WAY_TYPE::END} },
-//    { {1442, 698}, {10, WAY_TYPE::START} },
-//    { {1680, 684}, {10, WAY_TYPE::END} },
-//    { {1690, 682}, {1, WAY_TYPE::START} } // end same as 1
-    { {1713, 454}, {9, WAY_TYPE::START} },
     { {1710, 558}, {9, WAY_TYPE::END} },
     { {1711, 548}, {0, WAY_TYPE::START} },
     { FAKE_POINT, {0, WAY_TYPE::END} },
-    { {1651, 759}, {8, WAY_TYPE::START} },
+    { {1651, 782}, {8, WAY_TYPE::START} }, // 16
+    { {1629, 782}, {8, WAY_TYPE::START} }, // 17
+    { {1607, 782}, {8, WAY_TYPE::START} }, // 18
+    { {1585, 782}, {8, WAY_TYPE::START} }, // 19
+    { {1564, 782}, {8, WAY_TYPE::START} }, // 20
+    { {1540, 783}, {8, WAY_TYPE::START} }, // 21
+//    { {1651, 759}, {8, WAY_TYPE::START} },
     { {1710, 694}, {8, WAY_TYPE::END} },
     { {1711, 702}, {1, WAY_TYPE::START} },
     { {1711, 601}, {1, WAY_TYPE::END} },
     { {1711, 608}, {0, WAY_TYPE::START} }, // end same as 0
-    { {1442, 736}, {7, WAY_TYPE::START} },
+    { {1488, 775}, {7, WAY_TYPE::START} }, // 22
+    { {1462, 775}, {7, WAY_TYPE::START} }, // 23
+    { {1390, 794}, {7, WAY_TYPE::START} }, // 24
+    { {1367, 749}, {7, WAY_TYPE::START} }, // 25
+    { {1334, 749}, {7, WAY_TYPE::START} }, // 26
+    { {1304, 750}, {7, WAY_TYPE::START} }, // 27
+    { {1274, 751}, {7, WAY_TYPE::START} }, // 28
+    { {1246, 751}, {7, WAY_TYPE::START} }, // 29
+//    { {1442, 736}, {7, WAY_TYPE::START} },
     { {1442, 698}, {7, WAY_TYPE::END} },
     { {1439, 705}, {10, WAY_TYPE::START} },
     { {1690, 682}, {10, WAY_TYPE::END} },
     { {1680, 684}, {1, WAY_TYPE::START} },  // end same as 1
-    { {1076, 767}, {6, WAY_TYPE::START} },
+    { {1215, 749}, {6, WAY_TYPE::START} }, // 30
+    { {1183, 750}, {6, WAY_TYPE::START} }, // 31
+    { {1150, 749}, {6, WAY_TYPE::START} }, // 32
+    { {1120, 749}, {6, WAY_TYPE::START} }, // 33
+    { {1092, 750}, {6, WAY_TYPE::START} }, // 34
+    { {1093, 785}, {6, WAY_TYPE::START} }, // 35
+    { {1121, 785}, {6, WAY_TYPE::START} }, // 36
+    { {1151, 784}, {6, WAY_TYPE::START} }, // 37
+    { {1182, 785}, {6, WAY_TYPE::START} }, // 38
+    { {1219, 797}, {6, WAY_TYPE::START} }, // 39
+    { {1220, 825}, {6, WAY_TYPE::START} }, // 40
+//    { {1076, 767}, {6, WAY_TYPE::START} },
     { {1075, 702}, {6, WAY_TYPE::END} },
     { {1072, 710}, {10, WAY_TYPE::START} },
     { {714, 679}, {4, WAY_TYPE::START} },
