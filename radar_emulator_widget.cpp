@@ -1,5 +1,6 @@
 #include "radar_emulator_widget.h"
 
+#include <algorithm>
 #include <QImage>
 #include <QPainter>
 #include <iostream>
@@ -73,9 +74,9 @@ void radar_emulator_widget::update_aerodrome() {
         return false;
     };
 
-    for (size_t i = 0; i != planes_departure.size(); ++i) {
-        non_free_points.insert(planes_departure[i].second);
-    }
+//    for (size_t i = 0; i != planes_departure.size(); ++i) {
+//        non_free_points.insert(planes_departure[i].second);
+//    }
 
     for (size_t i = 0; i != planes_departure.size(); ++i) {
         size_t id = planes_departure[i].first;
@@ -102,6 +103,22 @@ void radar_emulator_widget::update_aerodrome() {
     planes_departure.swap(next);
     next.clear();
 
+
+//    for (size_t i = 0; i != planes_arrival.size(); ++i) {
+//        size_t id = planes_arrival[i].first;
+//        deque<point>& all_steps = planes_arrival[i].second;
+
+//        point current_point = all_steps.front();
+//        all_steps.pop_front();
+
+//        if (!all_steps.empty()) {
+//            point step_point = all_steps.front();
+
+//        }
+//    }
+
+
+
     for (size_t i = planes_departure.size(); i < planes_amount; ++i) {
         size_t id;
         while (true) {
@@ -111,12 +128,30 @@ void radar_emulator_widget::update_aerodrome() {
             }
         }
         non_free_ids.insert(id);
-        planes_departure.push_back({id, SPAWN[id]});
+        if (id < 15) {
+//            if (rand() % 2) {
+                planes_departure.push_back({id, SPAWN[id]});
+//            } else {
+//                vector<point> path;
+//                point temp = SPAWN[id];
+//                while (temp != FAKE_POINT) {
+//                    path.push_back(temp);
+//                    temp = DEPARTURES[temp];
+//                }
+//                path.push_back(FAKE_POINT);
+
+//                reverse(path.begin(), path.end());
+//                planes_arrival.push_back({id, {}});
+//                for (point iter : path) {
+//                    planes_arrival.back().second.push_back(iter);
+//                }
+//                taxiway[0].push(id);
+//                taxiway[9].push(id);
+//            }
+        } else {
+            planes_departure.push_back({id, SPAWN[id]});
+        }
     }
-
-//    for (size_t i = planes_departure.size() + planes_arrival.size(); i < planes_amount; ++i) {
-
-//    }
 
     repaint();
 }
@@ -334,17 +369,13 @@ map<point, point> radar_emulator_widget::DEPARTURES = {
     { {1074, 580}, {1005, 580} },
     { {1005, 580}, {936, 580} },
     { {936, 580}, FAKE_POINT }
-//    { {936, 580}, {813, 581} },
-    //        { {813, 581}, {692, 582} },
-    //        { {692, 582}, {571, 582} },
-    //        { {571, 582}, {431, 583} },
 
 
 
 };
 
 map<point, vector<point>> radar_emulator_widget::DEPARTURES_VARIADIC = {
-    { {1071, 684}, { {1045, 683}, {1106, 682} } }
+    { {1071, 684}, { {1045, 683}, {1045, 683} } } //{1106, 682}
 };
 
 vector<point> radar_emulator_widget::SPAWN = {
@@ -449,8 +480,8 @@ map<point, pair<size_t, WAY_TYPE>> radar_emulator_widget::TAXIWAY_END_POINTS = {
 //    { {1076, 767}, {6, WAY_TYPE::START} },
     { {1075, 702}, {6, WAY_TYPE::END} },
     { {1072, 710}, {10, WAY_TYPE::START} },
-    { {714, 679}, {4, WAY_TYPE::START} },
-    { {723, 684}, {10, WAY_TYPE::END} },
+    { {723, 684}, {4, WAY_TYPE::START} },
+    { {714, 679}, {10, WAY_TYPE::END} },
     { {658, 610}, {0, WAY_TYPE::START} },
     { {667, 599}, {4, WAY_TYPE::END} }
 

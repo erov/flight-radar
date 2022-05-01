@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <deque>
 #include <map>
 #include <set>
 #include <vector>
@@ -15,6 +16,7 @@ using std::map;
 using std::vector;
 using std::set;
 using std::queue;
+using std::deque;
 using point = pair<qreal, qreal>;
 
 enum class WAY_TYPE {
@@ -47,9 +49,9 @@ private:
     qreal MAX_W;
     qreal MAX_H;
     qreal POINT_SIZE;
-    size_t planes_amount = 5;
+    size_t planes_amount = 10;
     vector<pair<size_t, point>> planes_departure;
-    vector<pair<size_t, point>> planes_arrival;
+    vector<pair<size_t, deque<point>>> planes_arrival;
     vector<queue<size_t>> taxiway;
 
 private:
