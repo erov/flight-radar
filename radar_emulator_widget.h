@@ -20,7 +20,7 @@ using std::deque;
 using point = pair<qreal, qreal>;
 
 enum class WAY_TYPE {
-    START, END
+    START, END, IGNORE
 };
 
 class radar_emulator_widget : public QWidget {
@@ -49,13 +49,15 @@ private:
     qreal MAX_W;
     qreal MAX_H;
     qreal POINT_SIZE;
-    size_t planes_amount = 10;
+    size_t planes_amount = 5;
     vector<pair<size_t, point>> planes_departure;
     vector<pair<size_t, deque<point>>> planes_arrival;
+    map<size_t, vector<size_t>> waiting_arrival;
     vector<queue<size_t>> taxiway;
 
 private:
     static map<point, point> DEPARTURES;
+    static vector<vector<pair<vector<point>, vector<size_t>>>> ARRIVAL;
     static map<point, vector<point>> DEPARTURES_VARIADIC;
     static vector<point> SPAWN;
     static map<point, pair<size_t, WAY_TYPE>> TAXIWAY_END_POINTS;
