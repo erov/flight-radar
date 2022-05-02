@@ -330,7 +330,10 @@ void radar_emulator_widget::set_speed(int boost) {
 
 
 QRectF radar_emulator_widget::scaled_coordinates(qreal x, qreal y, qreal w, qreal h) {
-    return QRectF(scale(x - static_cast<qreal>(point_pixel_size) / 2, maximum_w, w), scale(y - static_cast<qreal>(point_pixel_size) / 2, maximum_h, h), w, h);
+    return QRectF(scale(x - static_cast<qreal>(point_pixel_size) / 2, maximum_w, w),
+                  scale(y - static_cast<qreal>(point_pixel_size) / 2, maximum_h, h),
+                  w,
+                  h);
 }
 
 qreal radar_emulator_widget::scale(qreal coord, qreal max_src, qreal max_scaled) {
@@ -498,8 +501,8 @@ unordered_map<point, point, detail::point_hasher> radar_emulator_widget::DEPARTU
     { {1471, 580}, {1424, 580} },
     { {1424, 580}, {1378, 580} },
     { {1378, 580}, {1331, 580} },
-    { {1331, 580}, {1248, 580} },
-    { {1248, 580}, {1214, 580} },
+    { {1331, 580}, {1284, 580} },
+    { {1284, 580}, {1214, 580} },
     { {1214, 580}, {1144, 580} },
     { {1144, 580}, {1074, 580} },
     { {1074, 580}, {1005, 580} },
