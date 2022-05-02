@@ -19,15 +19,20 @@ using std::vector;
 using std::set;
 using std::queue;
 using std::deque;
-using point = pair<qreal, qreal>;
+using point = pair<qreal, qreal>;  // sorry about that
 
-enum class WAY_TYPE {
+
+namespace detail {
+
+enum class taxiway_endpoints_t {
     START, END, IGNORE
 };
 
 struct point_hasher {
     size_t operator()(const point& p) const;
 };
+
+} // namespace detail
 
 
 class radar_emulator_widget : public QWidget {
@@ -39,9 +44,7 @@ public:
     radar_emulator_widget(QWidget* parent = nullptr);
     void paintEvent(QPaintEvent*) override;
     void set_label(QLabel* label);
-    void set_max_w(qreal w);
-    void set_max_h(qreal h);
-    void set_point_size(qreal size);
+    void set_point_size(size_t size);
 
 public Q_SLOTS:
     void set_plane_number(int value);
@@ -55,23 +58,26 @@ private Q_SLOTS:
     void update_aerodrome();
 
 private:
-    QLabel* label;
-    QTimer* update_timer;
-    qreal MAX_W;
-    qreal MAX_H;
-    qreal POINT_SIZE;
-    size_t plane_number = 2;
-    size_t special_equipment_id = 0;
-    int special_equipment_delta = 0;
-    vector<pair<size_t, point>> planes_departure;
-    vector<pair<size_t, deque<point>>> planes_arrival;
-    unordered_map<size_t, vector<size_t>> waiting_arrival;
-    vector<queue<size_t>> taxiway;
+    QLabel* painting_label;
+    QTimer* timer;
+    size_t point_pixel_size{21};
+    size_t plane_number{2};
+    size_t helper_position{0};
+    int helper_position_delta{0};
+    vector<pair<size_t, point>> departure_aircrafts;
+    vector<pair<size_t, deque<point>>> arrival_aircrafts;
+    unordered_map<size_t, vector<size_t>> arival_waiting_aircrafts;
+    vector<queue<size_t>> taxiway_que;
+
+public:
+    constexpr static qreal maximum_w{static_cast<qreal>(1920)};
+    constexpr static qreal maximum_h{static_cast<qreal>(1080)};
 
 private:
-    static vector<point> SPECIAL_EQUIPMENT;
-    static unordered_map<point, point, point_hasher> DEPARTURES;
-    static unordered_map<point, vector<point>, point_hasher> DEPARTURES_VARIADIC;
-    static vector<point> SPAWN;
-    static unordered_map<point, pair<size_t, WAY_TYPE>, point_hasher> TAXIWAY_END_POINTS;
+    constexpr static int STANDART_SPEED = 1'000;
+    static vector<point> HELPER_TRAJECTORY;
+    static unordered_map<point, point, detail::point_hasher> DEPARTURES_TRAJECTORY;
+    static unordered_map<point, vector<point>, detail::point_hasher> DEPARTURES_VARIADIC_TRAJECTORY;
+    static vector<point> SPAWNPOINT;
+    static unordered_map<point, pair<size_t, detail::taxiway_endpoints_t>, detail::point_hasher> TAXIWAY_ENDPOINTS;
 };
