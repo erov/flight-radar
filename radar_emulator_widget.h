@@ -54,14 +54,16 @@ private:
     qreal MAX_H;
     qreal POINT_SIZE;
     size_t plane_number = 2;
+    size_t special_equipment_id = 0;
+    int special_equipment_delta = 0;
     vector<pair<size_t, point>> planes_departure;
     vector<pair<size_t, deque<point>>> planes_arrival;
     map<size_t, vector<size_t>> waiting_arrival;
     vector<queue<size_t>> taxiway;
 
 private:
+    static vector<point> SPECIAL_EQUIPMENT;
     static map<point, point> DEPARTURES;
-    static vector<vector<pair<vector<point>, vector<size_t>>>> ARRIVAL;
     static map<point, vector<point>> DEPARTURES_VARIADIC;
     static vector<point> SPAWN;
     static map<point, pair<size_t, WAY_TYPE>> TAXIWAY_END_POINTS;
