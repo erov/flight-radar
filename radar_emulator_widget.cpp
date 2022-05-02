@@ -3,22 +3,23 @@
 #include <algorithm>
 #include <QImage>
 #include <QPainter>
-#include <iostream>
+#include <unordered_set>
 
-using std::pair;
-using std::map;
-using std::vector;
-using std::set;
-using point = pair<qreal, qreal>;
+using std::unordered_set;
 
 constexpr inline point FAKE_POINT = point(1920 * 4, 1080 * 4);
 constexpr inline point FAIL_POINT = point(1920 * 5, 1080 * 5);
 constexpr inline point SKIP_POINT = point(1920 * 6, 1080 * 6);
 
 
+size_t point_hasher::operator()(const point& p) const {
+    return p.first * 1920 * 10 + p.second;
+}
+
+
 radar_emulator_widget::radar_emulator_widget(QWidget* parent)
-    : QWidget(parent)
-{
+    : QWidget(parent) {
+
     update_timer = new QTimer(this);
     QObject::connect(update_timer, SIGNAL(timeout()), this, SLOT(update_aerodrome()));
     update_timer->start(1'000);
@@ -35,8 +36,8 @@ void radar_emulator_widget::update_aerodrome() {
 
     assert(plane_number <= SPAWN.size());
 
-    set<size_t> non_free_ids;
-    set<point> non_free_points;
+    unordered_set<size_t> non_free_ids;
+    unordered_set<point, point_hasher> non_free_points;
     vector<pair<size_t, point>> next_departures;
     vector<pair<size_t, deque<point>>> next_arrivals;
 
@@ -54,8 +55,8 @@ void radar_emulator_widget::update_aerodrome() {
         if (steps.empty()) {
             return;
         }
-        next_arrivals.push_back({id, steps});
         fix_non_free(id, steps.front());
+        next_arrivals.push_back({id, std::move(steps)});
     };
 
     auto in_ith_queue = [&](size_t que_id, size_t plane_id) -> bool {
@@ -147,7 +148,7 @@ void radar_emulator_widget::update_aerodrome() {
         deque<point>& all_steps = planes_arrival[i].second;
 
         if (waiting_arrival.count(id)) {
-            next_arrivals.push_back({id, all_steps});
+            next_arrivals.push_back({id, std::move(all_steps)});
             continue;
         }
 
@@ -335,7 +336,7 @@ vector<point> radar_emulator_widget::SPECIAL_EQUIPMENT = {
     {1721, 728}, {1703, 748}, {1679, 755}, {1658, 765}, FAKE_POINT
 };
 
-map<point, point> radar_emulator_widget::DEPARTURES = {
+unordered_map<point, point, point_hasher> radar_emulator_widget::DEPARTURES = {
     { {1750, 444}, {1731, 447} }, /* taxiway-9 */
     { {1750, 420}, {1730, 423} },
     { {1712, 432}, {1713, 454} },
@@ -511,7 +512,7 @@ map<point, point> radar_emulator_widget::DEPARTURES = {
 
 };
 
-map<point, vector<point>> radar_emulator_widget::DEPARTURES_VARIADIC = {
+unordered_map<point, vector<point>, point_hasher> radar_emulator_widget::DEPARTURES_VARIADIC = {
     { {1071, 684}, { {1045, 683}, {1106, 682} } } //{1106, 682}
 };
 
@@ -559,7 +560,7 @@ vector<point> radar_emulator_widget::SPAWN = {
 
 };
 
-map<point, pair<size_t, WAY_TYPE>> radar_emulator_widget::TAXIWAY_END_POINTS = {
+unordered_map<point, pair<size_t, WAY_TYPE>, point_hasher> radar_emulator_widget::TAXIWAY_END_POINTS = {
     { {1750, 444}, {9, WAY_TYPE::START} },  // 1
     { {1750, 420}, {9, WAY_TYPE::START} },  // 2
     { {1748, 364}, {9, WAY_TYPE::START} },  // 3

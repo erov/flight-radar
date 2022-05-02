@@ -10,9 +10,11 @@
 #include <QTimer>
 #include <queue>
 #include <QWidget>
+#include <unordered_map>
 
 using std::pair;
 using std::map;
+using std::unordered_map;
 using std::vector;
 using std::set;
 using std::queue;
@@ -22,6 +24,11 @@ using point = pair<qreal, qreal>;
 enum class WAY_TYPE {
     START, END, IGNORE
 };
+
+struct point_hasher {
+    size_t operator()(const point& p) const;
+};
+
 
 class radar_emulator_widget : public QWidget {
     Q_OBJECT
@@ -58,13 +65,13 @@ private:
     int special_equipment_delta = 0;
     vector<pair<size_t, point>> planes_departure;
     vector<pair<size_t, deque<point>>> planes_arrival;
-    map<size_t, vector<size_t>> waiting_arrival;
+    unordered_map<size_t, vector<size_t>> waiting_arrival;
     vector<queue<size_t>> taxiway;
 
 private:
     static vector<point> SPECIAL_EQUIPMENT;
-    static map<point, point> DEPARTURES;
-    static map<point, vector<point>> DEPARTURES_VARIADIC;
+    static unordered_map<point, point, point_hasher> DEPARTURES;
+    static unordered_map<point, vector<point>, point_hasher> DEPARTURES_VARIADIC;
     static vector<point> SPAWN;
-    static map<point, pair<size_t, WAY_TYPE>> TAXIWAY_END_POINTS;
+    static unordered_map<point, pair<size_t, WAY_TYPE>, point_hasher> TAXIWAY_END_POINTS;
 };
