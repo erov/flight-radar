@@ -36,6 +36,10 @@ public:
     void set_max_h(qreal h);
     void set_point_size(qreal size);
 
+public Q_SLOTS:
+    void set_plane_number(int value);
+    void set_speed(int boost);
+
 private:
     QRectF scaled_coordinates(qreal x, qreal y, qreal w, qreal h);
     qreal scale(qreal coord, qreal max_src, qreal max_scaled);
@@ -49,7 +53,7 @@ private:
     qreal MAX_W;
     qreal MAX_H;
     qreal POINT_SIZE;
-    size_t planes_amount = 5;
+    size_t plane_number = 2;
     vector<pair<size_t, point>> planes_departure;
     vector<pair<size_t, deque<point>>> planes_arrival;
     map<size_t, vector<size_t>> waiting_arrival;

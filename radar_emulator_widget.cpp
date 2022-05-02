@@ -20,7 +20,7 @@ radar_emulator_widget::radar_emulator_widget(QWidget* parent)
 {
     update_timer = new QTimer(this);
     QObject::connect(update_timer, SIGNAL(timeout()), this, SLOT(update_aerodrome()));
-    update_timer->start(1'000 / 10);
+    update_timer->start(1'000);
 
     taxiway.resize(11);
 }
@@ -31,7 +31,7 @@ radar_emulator_widget::~radar_emulator_widget() {
 
 void radar_emulator_widget::update_aerodrome() {
 
-    assert(planes_amount <= SPAWN.size());
+    assert(plane_number <= SPAWN.size());
 
     set<size_t> non_free_ids;
     set<point> non_free_points;
@@ -107,7 +107,7 @@ void radar_emulator_widget::update_aerodrome() {
     for (size_t i = 0; i != planes_departure.size(); ++i) {
         size_t id = planes_departure[i].first;
         point current_point = planes_departure[i].second;
-        std::cerr << id << ' ' << current_point.first << ' ' << current_point.second << '\n';
+//        std::cerr << id << ' ' << current_point.first << ' ' << current_point.second << '\n';
 
         if (DEPARTURES.count(current_point) || DEPARTURES_VARIADIC.count(current_point)) {
             point step_point = DEPARTURES.count(current_point)
@@ -142,7 +142,7 @@ void radar_emulator_widget::update_aerodrome() {
         deque<point>& all_steps = planes_arrival[i].second;
 
         if (waiting_arrival.count(id)) {
-            std::cerr << "wait arrival: " << id << '\n';
+//            std::cerr << "wait arrival: " << id << '\n';
             next_arrivals.push_back({id, all_steps});
             continue;
         }
@@ -150,7 +150,7 @@ void radar_emulator_widget::update_aerodrome() {
         point current_point = all_steps.front();
         all_steps.pop_front();
 
-        std::cerr << "arrival: " << id << ' ' << current_point.first << ' ' << current_point.second << '\n';
+//        std::cerr << "arrival: " << id << ' ' << current_point.first << ' ' << current_point.second << '\n';
 
 
 
@@ -185,7 +185,7 @@ void radar_emulator_widget::update_aerodrome() {
 
 
     if (waiting_arrival.empty()) {
-        for (size_t i = planes_departure.size() + planes_arrival.size(); i < planes_amount; ++i) {
+        for (size_t i = planes_departure.size() + planes_arrival.size(); i < plane_number; ++i) {
             size_t id;
             while (true) {
                 id = rand() % SPAWN.size();
@@ -288,7 +288,6 @@ void radar_emulator_widget::paintEvent(QPaintEvent* event = nullptr) {
     point_sample_blue = point_sample_blue.scaled(w, h);
 
     for (size_t i = 0; i != planes_arrival.size(); ++i) {
-        size_t id = planes_arrival[i].first;
         deque<point>& points = planes_arrival[i].second;
         point point = points.front();
         painter.drawPixmap(scaled_coordinates(point.first, point.second, w,  h), point_sample_blue, QRectF(0, 0, w, h));
@@ -311,6 +310,16 @@ void radar_emulator_widget::set_max_h(qreal h) {
 
 void radar_emulator_widget::set_point_size(qreal size) {
     this->POINT_SIZE = size;
+}
+
+void radar_emulator_widget::set_plane_number(int value) {
+    this->plane_number = static_cast<size_t>(value);
+    update();
+}
+
+void radar_emulator_widget::set_speed(int boost) {
+    this->update_timer->setInterval(1'000 / boost);
+    update();
 }
 
 QRectF radar_emulator_widget::scaled_coordinates(qreal x, qreal y, qreal w, qreal h) {
