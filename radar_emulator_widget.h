@@ -77,3 +77,4 @@ private:
     static vector<size_t> SPAWNPOINT;
     static unordered_map<size_t, pair<size_t, detail::taxiway_endpoints_t>> TAXIWAY_ENDPOINTS;
 };
+

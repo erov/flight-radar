@@ -764,3 +764,4 @@ vector<point_t> radar_emulator_widget::POINT_BY_ID = {
     {radar_emulator_widget::maximum_w * 2 + 2, radar_emulator_widget::maximum_h},
     {radar_emulator_widget::maximum_w * 2 + 3, radar_emulator_widget::maximum_h}
 };
+
